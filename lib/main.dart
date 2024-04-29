@@ -6,14 +6,17 @@ import 'package:register/profile.dart';
 import 'package:register/register.dart';
 
 import 'firebase_options.dart';
+import 'new.dart';
 
 void main()async {
+
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
     MaterialApp(
-      home: screen5(),
+      home: screen7(),
 
 
 

@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:register/profile.dart';
 
 class screen4 extends StatelessWidget {
-  const screen4({super.key});
+   screen4({super.key});
+
+  final emailController =  TextEditingController();
+  final passwordController =  TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,7 @@ class screen4 extends StatelessWidget {
         child: Column(
           children: [SizedBox(height: 60,),
             TextField(
+              controller: emailController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -33,6 +38,7 @@ class screen4 extends StatelessWidget {
               height: 60,
             ),
             TextField(
+              controller: passwordController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -48,8 +54,18 @@ class screen4 extends StatelessWidget {
                   height: 100,
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> screen6()));
+                  onPressed: () async {
+                    try {
+
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: emailController.text,
+                          password: passwordController.text);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => screen6()));
+                    } on FirebaseAuthException catch (e) {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(e.code)));
+                    }
                   },
                   child: Text(
                     'login',
